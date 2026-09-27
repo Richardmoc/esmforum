@@ -1,0 +1,25 @@
+const Database = require('better-sqlite3');
+const { BuscarPerguntas } = require('../busca/servico');
+const Repositorio = require('../busca/repositorio-sqlite');
+const controller = require('../busca/controller');
+let db, servico;
+beforeEach(() => {
+  db = new Database(':memory:');
+  db.exec(`CREATE TABLE perguntas(id_pergunta INTEGER PRIMARY KEY, texto TEXT, id_usuario INTEGER);
+    CREATE TABLE respostas(id_resposta INTEGER PRIMARY KEY, id_pergunta INTEGER, texto TEXT);
+    INSERT INTO perguntas VALUES (1, 'Como aprender JavaScript?', 1), (2, 'Carreira: 100% de dedicação_', 1);
+    INSERT INTO respostas VALUES (1, 1, 'Praticando'), (2, 1, 'Estudando');`);
+  servico = new BuscarPerguntas(new Repositorio({queryAll: (sql, params) => db.prepare(sql).all(params)}));
+});
+afterEach(() => db.close());
+test('busca parcial, espaços e caixa ASCII', () => expect(servico.executar('  JAVAScript ').map(p => p.id_pergunta)).toEqual([1]));
+test('conta respostas sem perder perguntas sem resposta', () => expect(servico.executar('').map(p => p.num_respostas)).toEqual([2, 0]));
+test('termo ausente ou só espaços lista tudo', () => { expect(servico.executar()).toHaveLength(2); expect(servico.executar('   ')).toHaveLength(2); });
+test('sem ocorrência retorna vazio', () => expect(servico.executar('inexistente')).toEqual([]));
+test.each(['%', '_'])('caractere %s é literal', termo => expect(servico.executar(termo).map(p => p.id_pergunta)).toEqual([2]));
+test('tentativa de injeção não altera banco', () => { expect(servico.executar("' OR 1=1 --")).toEqual([]); expect(servico.executar()).toHaveLength(2); });
+test.each([null, [], {}, 'x'.repeat(101)])('entrada inválida: %j', valor => expect(() => servico.executar(valor)).toThrow('100 caracteres'));
+test('100 caracteres são aceitos', () => expect(servico.executar('x'.repeat(100))).toEqual([]));
+test('DIP permite repositório alternativo', () => { const repo = {buscar: jest.fn().mockReturnValue([{id_pergunta: 9}])}; expect(new BuscarPerguntas(repo).executar(' teste ')).toEqual([{id_pergunta: 9}]); expect(repo.buscar).toHaveBeenCalledWith('teste'); });
+test('controller converte erro de validação para HTTP 400', () => { const res = {status: jest.fn().mockReturnThis(), json: jest.fn()}; controller(servico)({query: {q: []}}, res); expect(res.status).toHaveBeenCalledWith(400); });
+test('controller não expõe erro interno', () => { const res = {status: jest.fn().mockReturnThis(), json: jest.fn()}; controller({executar: () => {throw Error('senha');}})({query: {}}, res); expect(res.status).toHaveBeenCalledWith(500); expect(res.json).toHaveBeenCalledWith({erro: 'Não foi possível buscar perguntas.'}); });

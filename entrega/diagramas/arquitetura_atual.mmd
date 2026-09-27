@@ -1,0 +1,16 @@
+flowchart TD
+ subgraph P[Apresentação]
+ R[SPA React]
+ end
+ subgraph A[Aplicação Node.js]
+ S[server.js: rotas HTTP]
+ M[modelo.js: operações e SQL]
+ end
+ subgraph D[Dados]
+ B[bd_utils.js: acesso ao driver]
+ Q[(SQLite: perguntas e respostas)]
+ end
+ R -->|HTTP; retorno JSON| S
+ S -->|chamada; retorno de objetos| M
+ M -->|consulta; retorno de objetos| B
+ B -->|SQL; retorno de registros| Q

@@ -1,0 +1,19 @@
+(node:5) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
+(Use `node --trace-warnings ...` to show where the warning was created)
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> esm-novo@1.0.0 test
+> jest --runInBand
+
+(node:18) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
+(Use `node --trace-warnings ...` to show where the warning was created)
+PASS testes/busca.test.js
+PASS testes/busca-http.test.js
+PASS testes/listar_perguntas.test.js
+PASS testes/modelo.test.js
+
+Test Suites: 4 passed, 4 total
+Tests:       22 passed, 22 total
+Snapshots:   0 total
+Time:        0.783 s, estimated 1 s
+Ran all test suites.

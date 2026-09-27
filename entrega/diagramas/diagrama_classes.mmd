@@ -1,0 +1,33 @@
+classDiagram
+ direction TB
+ class Usuario {
+   +int id_usuario
+   +string nome
+ }
+ class Pergunta {
+   +int id_pergunta
+   +string texto
+   +int id_usuario
+ }
+ class Resposta {
+   +int id_resposta
+   +int id_pergunta
+   +string texto
+ }
+ class Tag {
+   +int id_tag
+   +string nome
+ }
+ class Voto {
+   +int id_usuario
+   +int id_pergunta
+   +int valor
+ }
+ Usuario "1" --> "0..*" Pergunta : autoria
+ Pergunta "1" --> "0..*" Resposta : recebe
+ Pergunta "0..*" -- "0..3" Tag : classificação
+ Usuario "1" --> "0..*" Voto : registra
+ Pergunta "1" --> "0..*" Voto : recebe
+ note for Usuario "Entidade proposta; base só guarda id_usuario=1"
+ note for Voto "Proposto: único por usuário e pergunta; valor +1 ou -1"
+ note for Tag "Proposta: 1 a 3 tags em perguntas novas; legado pode ter zero"

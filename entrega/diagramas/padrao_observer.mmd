@@ -1,0 +1,23 @@
+classDiagram
+ direction TB
+ class RespostaService {
+  +cadastrar(dados)
+ }
+ class Eventos {
+  +assinar(observador)
+  +publicar(evento)
+ }
+ class ObservadorResposta {
+  <<interface>>
+  +receber(evento)
+ }
+ class NotificadorAutor {
+  +receber(evento)
+ }
+ class RegistroAuditoria {
+  +receber(evento)
+ }
+ RespostaService --> Eventos : publica após persistência
+ Eventos "1" o-- "0..*" ObservadorResposta : notifica
+ ObservadorResposta <|.. NotificadorAutor
+ ObservadorResposta <|.. RegistroAuditoria

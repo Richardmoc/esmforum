@@ -1,0 +1,19 @@
+flowchart TD
+ R[React: apresentação visual] -->|HTTP| C
+ subgraph API[Apresentação da API]
+ C[BuscaController / VotoController]
+ V[PerguntaView / VotoView: JSON]
+ end
+ subgraph M[Model e aplicação]
+ S[BuscarPerguntas / VotarPergunta]
+ I[Contratos dos repositórios]
+ end
+ subgraph D[Dados]
+ A[Adaptadores SQLite]
+ B[(Banco SQLite)]
+ end
+ C -->|executar| S
+ S -->|usar contrato| I
+ A -.->|implementam| I
+ A -->|SQL e transações| B
+ C -->|resultado: serializar JSON para React| V

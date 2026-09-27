@@ -1,0 +1,12 @@
+stateDiagram-v2
+ [*] --> SemRespostas: cadastrar pergunta
+ SemRespostas --> ComRespostas: cadastrar primeira resposta
+ ComRespostas --> ComRespostas: cadastrar outra resposta
+ note right of SemRespostas
+ Estado derivado da contagem de respostas.
+ Não existe coluna de status na base.
+ end note
+ note right of ComRespostas
+ A base não oferece exclusão de resposta
+ nem encerramento de pergunta.
+ end note

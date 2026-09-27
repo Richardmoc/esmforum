@@ -4,14 +4,14 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest --runInBand",
+    "start": "node server.js"
   },
   "author": "",
   "license": "MIT",
   "dependencies": {
     "better-sqlite3": "^11.0.0",
-    "express": "^4.18.2",
-    "sqlite3": "^5.1.7"
+    "express": "^4.18.2"
   },
   "devDependencies": {
     "eslint": "^8.31.0",

@@ -1,0 +1,6 @@
+Prioridade,Titulo,Status,Descricao,Criterio de aceite
+1,Busca por palavra-chave,Em revisão,"Localizar perguntas pelo texto; código e testes preparados","Busca parcial; limpar filtro; zero resultados; erros visíveis"
+2,Categorização por tags,Backlog,"Associar tags normalizadas a perguntas e filtrar","Uma a três tags sem duplicação; filtro exato por tag"
+3,Votação em perguntas,Backlog,"Registrar upvote/downvote por usuário autenticado","Voto único; troca de voto; saldo consistente; rejeitar anônimo"
+4,Perfil com histórico,Backlog,"Exibir perguntas e respostas atribuídas ao usuário","Identidade validada; históricos corretos; estado vazio; migração de autoria"
+5,Notificação de respostas,Backlog,"Avisar autor sobre nova resposta na própria pergunta","Persistir destinatário; evitar autoaviso e duplicação; marcar leitura"

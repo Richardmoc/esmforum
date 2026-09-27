@@ -1,0 +1,22 @@
+sequenceDiagram
+ actor Leitor
+ participant UI as React
+ participant API as API / Controller
+ participant S as BuscarPerguntas
+ participant R as Repositório / SQLite
+ Leitor->>UI: Informar termo e buscar
+ UI->>API: GET /perguntas/busca?q=termo
+ API->>S: executar(q)
+ alt Entrada inválida
+ S-->>API: TermoInvalido
+ API-->>UI: 400 + mensagem
+ UI-->>Leitor: Exibir erro
+ else Entrada válida
+ S->>S: Remover espaços externos
+ S->>R: buscar(termo)
+ R->>R: SELECT parametrizado e contagens
+ R-->>S: Array de perguntas
+ S-->>API: Array de perguntas
+ API-->>UI: 200 + JSON
+ UI-->>Leitor: Lista ou ausência de resultados
+ end

@@ -1,0 +1,18 @@
+classDiagram
+ direction TB
+ class BuscaService {
+  +executar(termo)
+ }
+ class EstrategiaBusca {
+  <<interface>>
+  +buscar(termo)
+ }
+ class BuscaLiteral {
+  +buscar(termo)
+ }
+ class BuscaPorTermos {
+  +buscar(termo)
+ }
+ BuscaService --> EstrategiaBusca : recebe
+ EstrategiaBusca <|.. BuscaLiteral
+ EstrategiaBusca <|.. BuscaPorTermos

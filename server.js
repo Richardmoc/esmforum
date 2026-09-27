@@ -1,6 +1,10 @@
 const express = require('express')
 const modelo = require('./modelo.js');
 
+const { BuscarPerguntas } = require('./busca/servico');
+const RepositorioPerguntasSqlite = require('./busca/repositorio-sqlite');
+const criarControllerBusca = require('./busca/controller');
+const bd = require('./bd/bd_utils');
 const app = express()
 app.use(express.json());
 
@@ -10,6 +14,10 @@ app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
   next();
 });
+
+app.get('/perguntas/busca', criarControllerBusca(
+  new BuscarPerguntas(new RepositorioPerguntasSqlite(bd))
+));
 
 app.get('/', (req, res) => {
   try {
@@ -60,6 +68,7 @@ app.post('/respostas', (req, res) => {
 
 // espera e trata requisições de clientes
 const port = 5000;
-app.listen(port, 'localhost', () => {
+if (require.main === module) app.listen(port, 'localhost', () => {
   console.log(`ESM Forum rodando em ${port}`)
 });
+module.exports = app;

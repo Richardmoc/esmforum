@@ -1,0 +1,19 @@
+classDiagram
+ direction TB
+ class VotarService {
+  +executar(usuario, pergunta, valor)
+ }
+ class RepositorioVotos {
+  <<interface>>
+  +registrarEObterSaldo(usuario, pergunta, valor)
+ }
+ class VotosSqliteAdapter {
+  +registrarEObterSaldo(usuario, pergunta, valor)
+ }
+ class BetterSqlite3 {
+  +prepare(sql)
+  +transaction(fn)
+ }
+ VotarService --> RepositorioVotos : depende do contrato
+ RepositorioVotos <|.. VotosSqliteAdapter
+ VotosSqliteAdapter --> BetterSqlite3 : traduz operações

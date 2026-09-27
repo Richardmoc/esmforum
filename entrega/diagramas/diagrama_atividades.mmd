@@ -1,0 +1,16 @@
+flowchart TD
+ I((Início)) --> A[Informar termo]
+ A --> B[Acionar busca]
+ B --> C{Entrada válida?}
+ C -->|Não| D[Exibir erro 400]
+ C -->|Sim| E[Remover espaços externos]
+ E --> F[Consultar perguntas e contagens]
+ F --> G{Consulta bem-sucedida?}
+ G -->|Não| H[Exibir falha]
+ G -->|Sim| J{Encontrou perguntas?}
+ J -->|Sim| K[Exibir resultados]
+ J -->|Não| L[Exibir lista vazia]
+ D --> Z((Fim))
+ H --> Z
+ K --> Z
+ L --> Z
